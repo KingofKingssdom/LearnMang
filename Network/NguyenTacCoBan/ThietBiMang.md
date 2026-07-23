@@ -92,7 +92,7 @@ Giúp kết nối hai phân đoạn mạng LAN riêng biệt để chúng hoạt
 Ví dụ: Access Point này bắt buộc một đầu phải nhận vào một tín hiệu là có dây, trong thực tế sử dụng là có tòa nhà rộng 4 lầu. Router phát Wi-Fi thì lầu 1 và lầu 2 dùng tốt nhưng lên lầu 3 và 4 thì yếu. Sử dụng Access Point này đặt ở lầu 3 đi dây từ router nối vào nó và từ đó lầu 3 và 4 có Wi-Fi mạnh mà kh bị rào cản
 đia hình
 
-## 3.Thiết bị nằm trên lớp mạng
+## 3. Thiết bị nằm trên lớp mạng
 
 Các thiết bị này hoạt động với địa chỉ IP (địa chỉ logic) và kết nối các mạng khác nhau với nhau.
 
@@ -125,3 +125,35 @@ Ví dụ:
     + Router chặn lại như thế nào? Router đóng vai trò như một "Bức tường cách âm":
         => Mọi tiếng "la lớn" (Broadcast) nội bộ ở nhà bạn chỉ chạy quẩn quanh trong nhà bạn. Khi chạm tới Router, Router sẽ chặn đứng lại (Drop), không cho tràn ra ngoài Internet.
         => Nhờ vậy, mạng nhà bạn được "cô lập" an toàn, bảo mật, và mạng Internet ngoài kia cũng không bị quá tải.
+
+### 4. Thiết bị nằm trên lớp 4-7 xử lý nâng cao
+
+**a. Gateway**
+
+Nó là một thiết bị phần cứng hoặc nút phần mềm hoạt động như một điểm vào/ra giữa hai mạng riêng biệt sử dụng các giao thức khác nhau, chuyển đổi dữ liệu để đảm bảo tính tương thích.
+
+Ví dụ: Mạng máy tính hiện đại dùng "ngôn ngữ" TCP/IP, mạng các thiết bị nhà thông minh (Smart Home) lại dùng "ngôn ngữ" Zigbee/Z-Wave, mạng công nghiệp cũ lại dùng "ngôn ngữ" Mainframe/SNA.
+Nếu bạn muốn dùng một cái điện thoại (chạy TCP/IP) để bật một bóng đèn thông minh (chạy Zigbee), hai thiết bị này không thể tự nói chuyện trực tiếp với nhau được.
+Lúc này, bạn cần một Gateway:
+
+**b. Firewall**
+
+Giám sát và kiểm soát lưu lượng đến/đi dựa trên các quy tắc an ninh xác định trước. Firewall không làm việc tùy tiện, nó hoạt động dựa trên một danh sách các quy tắc (Rule) do người quản trị mạng thiết lập.
+
++ Cách nó kiểm tra: Mỗi gói dữ liệu chạy qua sẽ bị dừng lại để soi: Địa chỉ gửi là đâu? Gửi đến đâu? Dùng cổng (Port) nào?
++ Áp dụng quy tắc (Rule):
+
+    + Chấp nhận (Allow): Nếu gói tin hợp lệ (ví dụ: Bạn gõ truy cập google.com qua cổng 443) -> Firewall mở cửa cho qua.
+    + Chặn (Block/Deny): Nếu phát hiện gói tin đến từ một địa chỉ IP độc hại bị gán nhãn đen, hoặc cố tình xâm nhập vào cổng không cho phép (ví dụ: cổng quản trị máy chủ) -> Firewall chặn đứng lại ngay lập tức.
+
+Một thiết bị vật lý nằm ở rìa mạng
+
++ Rìa mạng (Network Edge): Là điểm ranh giới tiếp giáp giữa Mạng nội bộ (LAN) của bạn và Thế giới Internet bên ngoài.
++ Thiết bị vật lý (Hardware Firewall): Là một cục phần cứng chuyên dụng (của các hãng như Fortinet, Palo Alto, Cisco...) được cắm ngay đằng sau Modem/Router cửa ngõ.
++ Tác dụng: Nó giống như một cổng gác bảo vệ ở cổng chính của khu đô thị. Mọi lưu lượng Internet từ bên ngoài muốn tràn vào toàn bộ công ty/nhà bạn đều phải bị lọc qua thiết bị này trước.
+
+Phần mềm cài đặt trên một máy chủ hoặc máy tính cụ thể
+
++ Software Firewall (hay Personal/Host-based Firewall): Là phần mềm chạy trực tiếp trên hệ điều hành của từng máy tính
++ Ví dụ quen thuộc: Windows Defender Firewall có sẵn trên máy tính Windows
++ Tác dụng: Giống như ổ khóa riêng trên từng cửa phòng. Dù kẻ xấu có lọt qua được cổng chính của khu đô thị (Hardware Firewall), nhưng khi mò đến cửa phòng (máy tính của bạn), phần mềm Firewall trên máy sẽ chặn lại, không cho truy cập trái phép vào dữ liệu cá nhân
